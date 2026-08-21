@@ -200,6 +200,139 @@ export default function PhishingDetector() {
         .corner-bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
         .corner-br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
 
+
+        /* Strong mobile layout rules */
+        .mobile-header,
+        .mobile-brand,
+        .mobile-header-actions,
+        .mobile-title,
+        .mobile-stat-grid,
+        .mobile-stat-card,
+        .mobile-panel,
+        .mobile-result-header {
+          min-width: 0;
+        }
+
+        @media (max-width: 640px) {
+          html, body, #root {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            overflow-x: hidden !important;
+          }
+
+          body {
+            margin: 0;
+          }
+
+          /* Compact header: brand on top, status below */
+          .mobile-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+          }
+
+          .mobile-brand {
+            width: 100%;
+            gap: 10px;
+          }
+
+          .mobile-title {
+            flex: 1;
+            min-width: 0;
+          }
+
+          .mobile-title h1 {
+            font-size: clamp(1.55rem, 8vw, 2rem);
+            letter-spacing: 1px !important;
+            line-height: 1;
+            max-width: 100%;
+          }
+
+          .mobile-title p {
+            font-size: 9px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+          }
+
+          .mobile-header-actions {
+            width: 100%;
+            justify-content: space-between;
+          }
+
+          /* Force stats into a clean 2 x 2 layout */
+          .mobile-stat-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 10px !important;
+          }
+
+          .mobile-stat-card {
+            min-height: 112px;
+            padding: 14px !important;
+          }
+
+          .mobile-stat-card svg {
+            width: 22px;
+            height: 22px;
+          }
+
+          .mobile-stat-value {
+            font-size: clamp(1.6rem, 8vw, 2rem);
+            line-height: 1.1;
+            max-width: 100%;
+          }
+
+          /* Scanner panel */
+          .mobile-panel {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 16px !important;
+          }
+
+          .mobile-panel input {
+            width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+            font-size: 16px !important;
+            padding-left: 42px !important;
+            padding-right: 42px !important;
+          }
+
+          .mobile-panel button {
+            min-height: 52px;
+          }
+
+          /* Prevent long terminal labels from widening the page */
+          .mobile-panel .font-mono {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+          }
+
+          /* Results */
+          .mobile-result-header {
+            width: 100%;
+          }
+
+          /* Sidebar cards */
+          .space-y-6 {
+            min-width: 0;
+          }
+
+          /* Reduce decorative corner size */
+          .corner-bracket {
+            width: 13px;
+            height: 13px;
+          }
+
+          /* Keep the grid effect visually subtle on small screens */
+          .fixed.inset-0 > div {
+            max-width: 100vw;
+          }
+        }
+
         /* Mobile layout safeguards */
         @media (max-width: 640px) {
           html, body, #root {
@@ -263,15 +396,15 @@ export default function PhishingDetector() {
       {/* Header */}
       <header className="relative border-b border-cyan-500/30 bg-black/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+          <div className="mobile-header flex items-center justify-between">
+            <div className="mobile-brand flex items-center gap-4 min-w-0">
               <div className="relative holo-glow">
                 <Shield className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-400 shrink-0" strokeWidth={1.5} />
                 <div className="absolute inset-0 blur-xl bg-cyan-400 opacity-50"></div>
               </div>
               <div>
-                <div className="flex items-center gap-2">
-                  <h1 className="text-2xl sm:text-3xl font-bold text-cyan-400 break-words" style={{ 
+                <div className="mobile-title flex items-center gap-2 min-w-0">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-cyan-400 break-words truncate" style={{ 
                     textShadow: '0 0 20px rgba(6, 182, 212, 0.8), 0 0 40px rgba(6, 182, 212, 0.4)',
                     fontFamily: 'monospace',
                     letterSpacing: '2px'
@@ -283,7 +416,7 @@ export default function PhishingDetector() {
                 <p className="text-xs text-cyan-600 font-mono">root@security:/sys/threat_scan# _</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div className="mobile-header-actions flex items-center gap-2 sm:gap-3 min-w-0">
               <div className="px-2 sm:px-3 py-1.5 holo-border rounded shrink-0">
                 <div className="flex items-center gap-2">
                   <Radio className="w-4 h-4 text-green-400 animate-pulse" />
@@ -300,7 +433,7 @@ export default function PhishingDetector() {
 
       <div className="relative max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
         {/* Holographic Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
+        <div className="mobile-stat-grid grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
           {[
             { label: 'SCANS', value: stats.checked, icon: Crosshair, color: 'cyan' },
             { label: 'BLOCKED', value: stats.blocked, icon: Shield, color: 'red' },
@@ -312,12 +445,12 @@ export default function PhishingDetector() {
               <div className="corner-bracket corner-tr"></div>
               <div className="corner-bracket corner-bl"></div>
               <div className="corner-bracket corner-br"></div>
-              <div className="holo-border p-3 sm:p-5 relative h-full">
+              <div className="holo-border p-3 sm:p-5 relative h-full mobile-stat-card min-w-0 overflow-hidden">
                 <div className="flex items-center justify-between mb-3">
                   <stat.icon className={`w-6 h-6 text-${stat.color}-400 holo-glow`} />
                   <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
                 </div>
-                <div className="text-2xl sm:text-3xl font-bold text-white mb-1 font-mono" style={{
+                <div className="text-2xl sm:text-3xl font-bold text-white mb-1 font-mono mobile-stat-value truncate" style={{
                   textShadow: `0 0 10px rgba(6, 182, 212, 0.6)`
                 }}>{stat.value}</div>
                 <div className="text-xs text-cyan-600 font-mono">{stat.label}</div>
@@ -334,7 +467,7 @@ export default function PhishingDetector() {
               <div className="corner-bracket corner-tr"></div>
               <div className="corner-bracket corner-bl"></div>
               <div className="corner-bracket corner-br"></div>
-              <div className="holo-border p-4 sm:p-6 lg:p-8">
+              <div className="holo-border p-4 sm:p-6 lg:p-8 mobile-panel">
                 <div className="flex items-center gap-2 mb-4 sm:mb-6">
                   <div className="flex gap-1">
                     <div className="w-3 h-3 rounded-full bg-red-500 holo-glow"></div>
@@ -354,7 +487,7 @@ export default function PhishingDetector() {
                       value={url}
                       onChange={(e) => setUrl(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleCheck()}
-                      placeholder="[INPUT_URL_TARGET]"
+                      placeholder="[INPUT_URL_TARGET]"\n                      inputMode="url"\n                      autoCapitalize="none"\n                      autoCorrect="off"\n                      spellCheck={false}
                       className="w-full pl-12 pr-4 py-4 bg-black/50 border border-cyan-500/30 rounded text-cyan-400 placeholder-cyan-800 focus:outline-none focus:border-cyan-400 font-mono text-sm transition-all"
                       style={{ boxShadow: 'inset 0 0 20px rgba(6, 182, 212, 0.1)' }}
                     />
@@ -436,7 +569,7 @@ export default function PhishingDetector() {
                 <div className="corner-bracket corner-bl"></div>
                 <div className="corner-bracket corner-br"></div>
                 <div className="holo-border p-4 sm:p-6 lg:p-8">
-                  <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-5 sm:mb-6">
+                  <div className="mobile-result-header flex flex-col sm:flex-row sm:items-start gap-4 mb-5 sm:mb-6">
                     <div className={`p-4 rounded-lg ${
                       result.color === 'red' ? 'bg-red-500/20 border border-red-500' :
                       result.color === 'yellow' ? 'bg-yellow-500/20 border border-yellow-500' :
@@ -570,7 +703,7 @@ export default function PhishingDetector() {
                           </span>
                           <span className="text-cyan-700 font-mono">{scan.timestamp.split(',')[1]}</span>
                         </div>
-                        <div className="text-cyan-600 truncate font-mono min-w-0">{scan.url}</div>
+                        <div className="text-cyan-600 truncate font-mono min-w-0 max-w-full">{scan.url}</div>
                       </div>
                     ))}
                   </div>
