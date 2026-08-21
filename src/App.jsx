@@ -152,7 +152,7 @@ export default function PhishingDetector() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-cyan-400 overflow-hidden relative">
+    <div className="min-h-screen bg-black text-cyan-400 overflow-x-hidden relative">
       <style>{`
         @keyframes holoPulse {
           0%, 100% { opacity: 0.6; box-shadow: 0 0 20px rgba(6, 182, 212, 0.4); }
@@ -199,6 +199,33 @@ export default function PhishingDetector() {
         .corner-tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
         .corner-bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
         .corner-br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+        /* Mobile layout safeguards */
+        @media (max-width: 640px) {
+          html, body, #root {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+          }
+
+          input, button {
+            -webkit-tap-highlight-color: transparent;
+          }
+
+          input {
+            min-width: 0;
+            font-size: 16px;
+          }
+
+          .holo-border {
+            max-width: 100%;
+          }
+
+          .corner-bracket {
+            width: 14px;
+            height: 14px;
+          }
+        }
       `}</style>
 
       {/* Holographic Grid Background */}
@@ -235,16 +262,16 @@ export default function PhishingDetector() {
 
       {/* Header */}
       <header className="relative border-b border-cyan-500/30 bg-black/80 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="relative holo-glow">
-                <Shield className="w-12 h-12 text-cyan-400" strokeWidth={1.5} />
+                <Shield className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-400 shrink-0" strokeWidth={1.5} />
                 <div className="absolute inset-0 blur-xl bg-cyan-400 opacity-50"></div>
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h1 className="text-3xl font-bold text-cyan-400" style={{ 
+                  <h1 className="text-2xl sm:text-3xl font-bold text-cyan-400 break-words" style={{ 
                     textShadow: '0 0 20px rgba(6, 182, 212, 0.8), 0 0 40px rgba(6, 182, 212, 0.4)',
                     fontFamily: 'monospace',
                     letterSpacing: '2px'
@@ -256,14 +283,14 @@ export default function PhishingDetector() {
                 <p className="text-xs text-cyan-600 font-mono">root@security:/sys/threat_scan# _</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="px-3 py-1.5 holo-border rounded">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <div className="px-2 sm:px-3 py-1.5 holo-border rounded shrink-0">
                 <div className="flex items-center gap-2">
                   <Radio className="w-4 h-4 text-green-400 animate-pulse" />
                   <span className="text-xs text-green-400 font-mono">ONLINE</span>
                 </div>
               </div>
-              <div className="text-xs text-cyan-600 font-mono border border-cyan-500/30 px-2 py-1 rounded">
+              <div className="text-[10px] sm:text-xs text-cyan-600 font-mono border border-cyan-500/30 px-2 py-1 rounded shrink-0">
                 {new Date().toLocaleTimeString()}
               </div>
             </div>
@@ -271,9 +298,9 @@ export default function PhishingDetector() {
         </div>
       </header>
 
-      <div className="relative max-w-7xl mx-auto px-4 py-6">
+      <div className="relative max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
         {/* Holographic Stats */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
           {[
             { label: 'SCANS', value: stats.checked, icon: Crosshair, color: 'cyan' },
             { label: 'BLOCKED', value: stats.blocked, icon: Shield, color: 'red' },
@@ -285,12 +312,12 @@ export default function PhishingDetector() {
               <div className="corner-bracket corner-tr"></div>
               <div className="corner-bracket corner-bl"></div>
               <div className="corner-bracket corner-br"></div>
-              <div className="holo-border p-5 relative">
+              <div className="holo-border p-3 sm:p-5 relative h-full">
                 <div className="flex items-center justify-between mb-3">
                   <stat.icon className={`w-6 h-6 text-${stat.color}-400 holo-glow`} />
                   <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
                 </div>
-                <div className="text-3xl font-bold text-white mb-1 font-mono" style={{
+                <div className="text-2xl sm:text-3xl font-bold text-white mb-1 font-mono" style={{
                   textShadow: `0 0 10px rgba(6, 182, 212, 0.6)`
                 }}>{stat.value}</div>
                 <div className="text-xs text-cyan-600 font-mono">{stat.label}</div>
@@ -307,8 +334,8 @@ export default function PhishingDetector() {
               <div className="corner-bracket corner-tr"></div>
               <div className="corner-bracket corner-bl"></div>
               <div className="corner-bracket corner-br"></div>
-              <div className="holo-border p-8">
-                <div className="flex items-center gap-2 mb-6">
+              <div className="holo-border p-4 sm:p-6 lg:p-8">
+                <div className="flex items-center gap-2 mb-4 sm:mb-6">
                   <div className="flex gap-1">
                     <div className="w-3 h-3 rounded-full bg-red-500 holo-glow"></div>
                     <div className="w-3 h-3 rounded-full bg-yellow-500 holo-glow"></div>
@@ -379,7 +406,7 @@ export default function PhishingDetector() {
               <div className="relative">
                 <div className="corner-bracket corner-tl"></div>
                 <div className="corner-bracket corner-tr"></div>
-                <div className="holo-border p-6">
+                <div className="holo-border p-4 sm:p-6">
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm font-mono">
                       <span className="text-cyan-400">ANALYZING_TARGET</span>
@@ -408,8 +435,8 @@ export default function PhishingDetector() {
                 <div className="corner-bracket corner-tr"></div>
                 <div className="corner-bracket corner-bl"></div>
                 <div className="corner-bracket corner-br"></div>
-                <div className="holo-border p-8">
-                  <div className="flex items-start gap-4 mb-6">
+                <div className="holo-border p-4 sm:p-6 lg:p-8">
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-5 sm:mb-6">
                     <div className={`p-4 rounded-lg ${
                       result.color === 'red' ? 'bg-red-500/20 border border-red-500' :
                       result.color === 'yellow' ? 'bg-yellow-500/20 border border-yellow-500' :
@@ -433,7 +460,7 @@ export default function PhishingDetector() {
                       </div>
                       <div className="text-cyan-400 font-mono text-sm">{result.message}</div>
                     </div>
-                    <div className={`text-4xl font-bold font-mono px-4 py-2 border-2 ${
+                    <div className={`text-3xl sm:text-4xl font-bold font-mono px-4 sm:px-4 py-2 border-2 w-full sm:w-auto text-center ${
                       result.color === 'red' ? 'border-red-500 text-red-400' :
                       result.color === 'yellow' ? 'border-yellow-500 text-yellow-400' :
                       'border-green-500 text-green-400'
@@ -525,7 +552,7 @@ export default function PhishingDetector() {
             <div className="relative">
               <div className="corner-bracket corner-tl"></div>
               <div className="corner-bracket corner-tr"></div>
-              <div className="holo-border p-4">
+              <div className="holo-border p-3 sm:p-4">
                 <div className="flex items-center gap-2 mb-4">
                   <Clock className="w-4 h-4 text-cyan-400" />
                   <span className="text-sm font-bold text-cyan-400 font-mono">ACTIVITY_LOG</span>
@@ -543,7 +570,7 @@ export default function PhishingDetector() {
                           </span>
                           <span className="text-cyan-700 font-mono">{scan.timestamp.split(',')[1]}</span>
                         </div>
-                        <div className="text-cyan-600 truncate font-mono">{scan.url}</div>
+                        <div className="text-cyan-600 truncate font-mono min-w-0">{scan.url}</div>
                       </div>
                     ))}
                   </div>
@@ -559,7 +586,7 @@ export default function PhishingDetector() {
             <div className="relative">
               <div className="corner-bracket corner-tl"></div>
               <div className="corner-bracket corner-tr"></div>
-              <div className="holo-border p-4">
+              <div className="holo-border p-3 sm:p-4">
                 <div className="flex items-center gap-2 mb-4">
                   <Database className="w-4 h-4 text-cyan-400" />
                   <span className="text-sm font-bold text-cyan-400 font-mono">THREAT_DB</span>
@@ -591,7 +618,7 @@ export default function PhishingDetector() {
             <div className="relative">
               <div className="corner-bracket corner-tl"></div>
               <div className="corner-bracket corner-tr"></div>
-              <div className="holo-border p-4">
+              <div className="holo-border p-3 sm:p-4">
                 <div className="text-sm font-bold mb-4 text-cyan-400 font-mono">MODULES</div>
                 <div className="space-y-1 text-xs font-mono">
                   {[
