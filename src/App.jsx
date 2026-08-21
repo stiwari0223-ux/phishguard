@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, AlertTriangle, CheckCircle, Link, Lock, Eye, TrendingUp, Zap, Info, Search, Globe, Clock, Server, FileWarning, Activity, Crosshair, Radio, Wifi, Database } from 'lucide-react';
 
-export default function PhishingDetector() {
+export default function App() {
   const [url, setUrl] = useState('');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
